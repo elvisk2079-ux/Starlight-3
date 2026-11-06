@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plural Nouns</title>
+<style>
+:root{--bg:#fbf6ef;--card:#fff;--ink:#3b3330;--soft:#8a7c74;--accent:#e9875b;--accent2:#7bb39a;--accent3:#f2c14e;--bad:#e06c6c;--line:#efe4d8;--r:20px}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Nunito","Segoe UI",system-ui,-apple-system,Arial,sans-serif;font-size:18px;line-height:1.45}
+header{padding:22px 18px 8px;text-align:center}
+header .kicker{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--soft)}
+header h1{margin:4px 0 2px;font-size:28px}
+header p{margin:0;color:var(--soft);font-size:15px}
+nav{display:flex;gap:8px;overflow-x:auto;padding:12px 16px 10px;max-width:980px;margin:0 auto;scrollbar-width:thin}
+nav button{flex:0 0 auto;border:2px solid var(--line);background:#fff;border-radius:999px;padding:8px 14px;font:inherit;font-size:14px;cursor:pointer;color:var(--ink);white-space:nowrap}
+nav button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+nav button .st{margin-left:4px}
+main{max-width:760px;margin:0 auto;padding:6px 14px 60px}
+.card{background:var(--card);border-radius:var(--r);box-shadow:0 6px 24px rgba(120,80,40,.08);padding:22px;margin-top:10px}
+.instr{font-weight:700;font-size:17px;margin-bottom:4px}
+.instr-ru{color:var(--soft);font-size:15px;margin-bottom:14px}
+.prog{height:8px;background:var(--line);border-radius:9px;overflow:hidden;margin-bottom:16px}
+.prog i{display:block;height:100%;background:var(--accent2);transition:width .3s}
+.emoji{font-size:54px;text-align:center;line-height:1.1;margin:4px 0 8px}
+.q{font-size:22px;text-align:center;margin:6px 0 18px}
+.q .gap{display:inline-block;min-width:90px;border-bottom:3px dashed var(--accent);color:var(--accent);font-weight:700}
+.opts{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.opt{border:2px solid var(--line);background:#fff;border-radius:14px;padding:12px 20px;font:inherit;font-size:19px;cursor:pointer;min-width:120px;transition:transform .1s}
+.opt:hover{border-color:var(--accent3)}
+.opt.ok{background:#e6f4ec;border-color:var(--accent2)}
+.opt.no{background:#fbe9e9;border-color:var(--bad);animation:shake .3s}
+@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.fb{text-align:center;min-height:28px;margin-top:14px;font-weight:700}
+.fb.ok{color:var(--accent2)}.fb.no{color:var(--bad)}
+.row{display:flex;justify-content:center;gap:10px;margin-top:14px;flex-wrap:wrap}
+.btn{border:none;background:var(--accent);color:#fff;border-radius:14px;padding:12px 22px;font:inherit;font-weight:700;cursor:pointer}
+.btn.ghost{background:#fff;color:var(--ink);border:2px solid var(--line)}
+.btn:disabled{opacity:.4;cursor:default}
+input.tx{font:inherit;font-size:22px;padding:10px 14px;border-radius:14px;border:2px solid var(--line);width:min(320px,100%);text-align:center}
+input.tx.ok{border-color:var(--accent2);background:#e6f4ec}input.tx.no{border-color:var(--bad);background:#fbe9e9}
+.tiles{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;min-height:56px;padding:10px;border-radius:14px}
+.tiles.ans{background:#fff8ee;border:2px dashed var(--accent3);margin-bottom:12px}
+.tile{background:#fff;border:2px solid var(--line);border-radius:12px;padding:8px 14px;font:inherit;font-size:19px;cursor:pointer}
+.tiles.ans .tile{border-color:var(--accent3)}
+/* flashcards */
+.fc{perspective:900px;width:min(340px,100%);height:230px;margin:0 auto;cursor:pointer}
+.fc .in{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d}
+.fc.flip .in{transform:rotateY(180deg)}
+.fc .s{position:absolute;inset:0;backface-visibility:hidden;border-radius:var(--r);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px;text-align:center}
+.fc .f{background:#fff3e6;border:2px solid #f6dcc2}
+.fc .b{background:#eaf5ef;border:2px solid #cfe7da;transform:rotateY(180deg)}
+.fc .big{font-size:28px;font-weight:800}.fc .sm{color:var(--soft);font-size:16px;margin-top:6px}
+.fc .e{font-size:64px}
+.say{border:none;background:var(--accent3);border-radius:50%;width:44px;height:44px;font-size:20px;cursor:pointer}
+/* rule */
+.rule h3{margin:18px 0 8px;font-size:19px;color:var(--accent)}
+.rule table{border-collapse:separate;border-spacing:0;width:100%;margin:6px 0 10px;font-size:17px}
+.rule td,.rule th{padding:7px 10px;border-bottom:1px solid var(--line);text-align:left}
+.rule th{background:#fff3e6;font-size:15px}
+.rule .ex{color:var(--soft)}
+.rule b{color:var(--ink)}
+.chip{display:inline-block;background:#fff3e6;border-radius:10px;padding:4px 10px;margin:3px;font-size:17px}
+.chip b{color:var(--accent)}
+.tip{background:#eaf5ef;border-radius:14px;padding:10px 14px;margin:10px 0;font-size:16px}
+/* sort */
+.cats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-top:10px}
+.cat{border:2px solid var(--line);border-radius:14px;padding:10px;min-height:90px;background:#fff;cursor:pointer;text-align:center}
+.cat h4{margin:0 0 6px;font-size:16px;color:var(--accent)}
+.cat .w{display:inline-block;font-size:14px;background:#eaf5ef;border-radius:8px;padding:2px 7px;margin:2px}
+.cat.no{border-color:var(--bad);animation:shake .3s}
+.word{font-size:30px;font-weight:800;text-align:center;margin:6px 0}
+/* match */
+.mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.mc{border:2px solid var(--line);background:#fff;border-radius:14px;min-height:74px;font:inherit;font-size:18px;cursor:pointer;padding:8px}
+.mc.sel{border-color:var(--accent3);background:#fff8ee}
+.mc.done{background:#e6f4ec;border-color:var(--accent2);opacity:.6;cursor:default}
+.mc.no{border-color:var(--bad);animation:shake .3s}
+.done-box{text-align:center;padding:10px}
+.done-box .stars{font-size:44px;letter-spacing:6px}
+.sum td{padding:6px 10px;border-bottom:1px solid var(--line)}
+.sum{margin:10px auto;border-collapse:collapse}
+footer{text-align:center;color:var(--soft);font-size:13px;padding:20px}
+</style>
+</head>
+<body>
+<header>
+  <div class="kicker">Starlight 3 · Module 2–3 · Grammar</div>
+  <h1>Plural Nouns</h1>
+  <p>Множественное число существительных</p>
+</header>
+<nav id="nav"></nav>
+<main id="main"></main>
+<footer>Чемоданчик учителя английского · Starlight 3</footer>
+<script>
+const DATA = {"sections": [{"type": "rule", "short": "Правило", "instr": "Plural nouns — множественное число", "ru": "Module 2 + Module 3. Сначала прочитай правило вместе с учителем.", "html": "\n<h3>1. Почти всегда: + s</h3>\n<span class=\"chip\">helicopter → helicopter<b>s</b></span><span class=\"chip\">bike → bike<b>s</b></span><span class=\"chip\">car → car<b>s</b></span><span class=\"chip\">doll → doll<b>s</b></span>\n<h3>2. После -x, -s, -ss, -ch: + es</h3>\n<span class=\"chip\">box → box<b>es</b></span><span class=\"chip\">bus → bus<b>es</b></span><span class=\"chip\">glass → glass<b>es</b></span><span class=\"chip\">watch → watch<b>es</b></span>\n<h3>3. Согласная + y → ies</h3>\n<span class=\"chip\">fairy → fair<b>ies</b></span><span class=\"chip\">family → famil<b>ies</b></span><span class=\"chip\">lorry → lorr<b>ies</b></span>\n<div class=\"tip\">⚠️ Но если перед <b>y</b> гласная — просто <b>+ s</b>: boy → boy<b>s</b>, monkey → monkey<b>s</b></div>\n<h3>4. Особые слова — их надо запомнить! ⭐</h3>\n<table><tr><th>one (один)</th><th>many (много)</th></tr>\n<tr><td>👨 a man</td><td><b>men</b></td></tr>\n<tr><td>👩 a woman</td><td><b>women</b></td></tr>\n<tr><td>🧒 a child</td><td><b>children</b></td></tr>\n<tr><td>🦶 a foot</td><td><b>feet</b></td></tr>\n<tr><td>🦷 a tooth</td><td><b>teeth</b></td></tr></table>\n<div class=\"tip\">💡 Вспомни: <b>this</b> book → <b>these</b> book<b>s</b>, <b>that</b> child → <b>those</b> children</div>\n"}, {"type": "cards", "short": "Карточки", "instr": "Flashcards: one → many", "ru": "Нажми на карточку, чтобы перевернуть и послушать.", "items": [{"e": "👨", "f": "a man", "b": "two men", "ru": "мужчина → мужчины"}, {"e": "👩", "f": "a woman", "b": "two women", "ru": "женщина → женщины"}, {"e": "🧒", "f": "a child", "b": "three children", "ru": "ребёнок → дети"}, {"e": "🦶", "f": "a foot", "b": "two feet", "ru": "ступня → ступни"}, {"e": "🦷", "f": "a tooth", "b": "white teeth", "ru": "зуб → зубы"}, {"e": "🚌", "f": "a bus", "b": "two buses", "ru": "автобус → автобусы"}, {"e": "🦊", "f": "a fox", "b": "four foxes", "ru": "лиса → лисы"}, {"e": "⌚", "f": "a watch", "b": "two watches", "ru": "часы (наручные)"}, {"e": "🚚", "f": "a lorry", "b": "three lorries", "ru": "грузовик → грузовики"}, {"e": "🧚", "f": "a fairy", "b": "two fairies", "ru": "фея → феи"}, {"e": "🐒", "f": "a monkey", "b": "five monkeys", "ru": "обезьянка → обезьянки"}, {"e": "🚁", "f": "a helicopter", "b": "two helicopters", "ru": "вертолёт → вертолёты"}]}, {"type": "sort", "short": "Разложи", "instr": "Sort the words", "ru": "Как это слово будет во множественном числе? Нажми на нужную коробку.", "cats": ["+ s", "+ es", "y → ies", "особые ⭐"], "items": [["bike", 0, "bikes"], ["car", 0, "cars"], ["doll", 0, "dolls"], ["kite", 0, "kites"], ["boy", 0, "boys"], ["monkey", 0, "monkeys"], ["box", 1, "boxes"], ["bus", 1, "buses"], ["fox", 1, "foxes"], ["glass", 1, "glasses"], ["watch", 1, "watches"], ["lorry", 2, "lorries"], ["fairy", 2, "fairies"], ["family", 2, "families"], ["puppy", 2, "puppies"], ["man", 3, "men"], ["woman", 3, "women"], ["child", 3, "children"], ["foot", 3, "feet"], ["tooth", 3, "teeth"]]}, {"type": "mcq", "short": "Выбери", "instr": "Choose the right word", "ru": "Выбери правильную форму.", "items": [{"e": "🦷🦷", "q": "I've got white ___.", "o": ["teeth", "tooths", "teeths"], "why": "tooth → teeth"}, {"e": "🦶🦶", "q": "My ___ are cold!", "o": ["feet", "foots", "feets"], "why": "foot → feet"}, {"e": "🧒🧒🧒", "q": "Look at those ___!", "o": ["children", "childs", "childrens"], "why": "child → children"}, {"e": "👩👩", "q": "These ___ are teachers.", "o": ["women", "womans", "womens"], "why": "woman → women"}, {"e": "👨👨", "q": "Those ___ are doctors.", "o": ["men", "mans", "mens"], "why": "man → men"}, {"e": "🦊🦊", "q": "Look at these ___!", "o": ["foxes", "foxs", "foxies"], "why": "после -x → + es"}, {"e": "🚌🚌", "q": "There are two ___.", "o": ["buses", "buss", "busies"], "why": "после -s → + es"}, {"e": "🚚🚚🚚", "q": "I've got three ___.", "o": ["lorries", "lorrys", "lorryes"], "why": "согласная + y → ies"}, {"e": "🐒🐒", "q": "Those ___ are funny!", "o": ["monkeys", "monkies", "monkeyes"], "why": "гласная + y → просто + s"}, {"e": "🚁🚁", "q": "These ___ are red.", "o": ["helicopters", "helicopteres", "helicopteris"], "why": "почти всегда + s"}, {"e": "⌚⌚", "q": "Two ___, please!", "o": ["watches", "watchs", "watchies"], "why": "после -ch → + es"}, {"e": "🧚🧚", "q": "Look at those ___!", "o": ["fairies", "fairys", "fairyes"], "why": "согласная + y → ies"}]}, {"type": "mcq", "short": "This → these", "instr": "One or many? this / these / that / those", "ru": "Смотри на слово после пропуска: одно или много?", "items": [{"e": "🧒🧒 👈", "q": "___ children are my friends.", "o": ["These", "This"], "why": "children — много, рядом → these"}, {"e": "👨 👉", "q": "___ man is my dad.", "o": ["That", "Those"], "why": "man — один, далеко → that"}, {"e": "🦷🦷 👈", "q": "___ teeth are white.", "o": ["These", "This"], "why": "teeth — много → these"}, {"e": "🦶 👈", "q": "___ foot is big!", "o": ["This", "These"], "why": "foot — одна → this"}, {"e": "👩👩 👉", "q": "___ women are nurses.", "o": ["Those", "That"], "why": "women — много, далеко → those"}, {"e": "🚚🚚 👉", "q": "Look at ___ lorries!", "o": ["those", "that"], "why": "lorries — много, далеко → those"}, {"e": "🦊 👈", "q": "___ fox is orange.", "o": ["This", "These"], "why": "fox — одна → this"}, {"e": "⌚⌚ 👈", "q": "Are ___ watches new?", "o": ["these", "this"], "why": "watches — много → these"}]}, {"type": "type", "short": "Напиши", "instr": "Write the plural", "ru": "Напиши слово во множественном числе.", "items": [{"e": "🧒", "q": "one child — two ___", "a": ["children"]}, {"e": "🦷", "q": "one tooth — many ___", "a": ["teeth"]}, {"e": "🦶", "q": "one foot — two ___", "a": ["feet"]}, {"e": "👩", "q": "one woman — three ___", "a": ["women"]}, {"e": "👨", "q": "one man — four ___", "a": ["men"]}, {"e": "📦", "q": "one box — five ___", "a": ["boxes"], "hint": "Слово кончается на -x. Что добавляем?"}, {"e": "🚚", "q": "one lorry — two ___", "a": ["lorries"], "hint": "Согласная + y → ..."}, {"e": "🚲", "q": "one bike — six ___", "a": ["bikes"]}, {"e": "🥛", "q": "one glass — two ___", "a": ["glasses"], "hint": "Слово кончается на -ss."}, {"e": "👦", "q": "one boy — three ___", "a": ["boys"], "hint": "Перед y гласная o!"}]}, {"type": "type", "short": "Переделай", "instr": "Make it plural", "ru": "Было одно — стало много. Допиши предложение.", "items": [{"e": "🧒→🧒🧒", "q": "This is a child. → These are ___.", "a": ["children"]}, {"e": "🦶→🦶🦶", "q": "This is my foot. → These are my ___.", "a": ["feet"]}, {"e": "👩→👩👩", "q": "That is a woman. → Those are ___.", "a": ["women"]}, {"e": "🦊→🦊🦊", "q": "This is a fox. → These are ___.", "a": ["foxes"]}, {"e": "🧚→🧚🧚", "q": "That is a fairy. → Those are ___.", "a": ["fairies"]}, {"e": "🦷→🦷🦷", "q": "This is a tooth. → These are ___.", "a": ["teeth"]}]}, {"type": "order", "short": "Собери", "instr": "Put the words in order", "ru": "Нажимай на слова по порядку и собери предложение.", "items": [{"e": "🧒🧒", "a": "These children are my friends.", "ru": "Эти дети — мои друзья."}, {"e": "🦷", "a": "I've got white teeth.", "ru": "У меня белые зубы."}, {"e": "👨👨", "a": "Those men are doctors.", "ru": "Те мужчины — врачи."}, {"e": "🚚🚚", "a": "Look at those big lorries!", "ru": "Посмотри на те большие грузовики!"}, {"e": "🦶", "a": "My feet are cold.", "ru": "У меня замёрзли ноги."}]}, {"type": "match", "short": "Пары", "instr": "Memory game: find the pairs", "ru": "Найди пары: одно слово → много.", "pairs": [["man", "men"], ["woman", "women"], ["child", "children"], ["foot", "feet"], ["tooth", "teeth"], ["fox", "foxes"], ["lorry", "lorries"], ["boy", "boys"]]}, {"type": "quiz", "short": "Тест", "instr": "Final test", "ru": "10 вопросов вперемешку. Покажи, что ты знаешь!", "n": 10}]};
+const S = DATA.sections;
+const score = S.map(()=>null);
+let cur = 0;
+const $ = (h)=>{const d=document.createElement('div');d.innerHTML=h.trim();return d.firstChild};
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const norm=s=>s.toLowerCase().replace(/[’`]/g,"'").replace(/[.,!?]/g,'').replace(/\s+/g,' ').trim();
+const PRAISE=['Great! 🌟','Well done! 👏','Super! 🎉','Excellent! ⭐','Yes! 👍'];
+const praise=()=>PRAISE[Math.floor(Math.random()*PRAISE.length)];
+function speak(t){try{const u=new SpeechSynthesisUtterance(t);u.lang='en-GB';u.rate=.85;speechSynthesis.cancel();speechSynthesis.speak(u)}catch(e){}}
+function stars(p){return p>=.9?'⭐⭐⭐':p>=.7?'⭐⭐':p>=.4?'⭐':'💪'}
+
+function drawNav(){
+  const n=document.getElementById('nav');n.innerHTML='';
+  S.forEach((s,i)=>{const b=document.createElement('button');b.className=i===cur?'on':'';if(i===cur)setTimeout(()=>b.scrollIntoView({inline:'center',block:'nearest'}),0);
+    b.innerHTML=(i+1)+'. '+s.short+(score[i]!=null?'<span class="st">'+stars(score[i])+'</span>':'');
+    b.onclick=()=>go(i);n.appendChild(b)});
+  const b=document.createElement('button');b.className=cur===S.length?'on':'';b.textContent='🏆 Итог';b.onclick=()=>go(S.length);n.appendChild(b);
+}
+function go(i){cur=i;drawNav();const m=document.getElementById('main');m.innerHTML='';
+  if(i===S.length){m.appendChild(summary());return}
+  const s=S[i];const c=$('<div class="card"></div>');
+  c.appendChild($('<div><div class="instr">'+s.instr+'</div><div class="instr-ru">'+(s.ru||'')+'</div></div>'));
+  m.appendChild(c);RENDER[s.type](s,c,i);window.scrollTo({top:0,behavior:'smooth'})}
+function finish(c,i,ok,total){score[i]=total?ok/total:1;drawNav();
+  c.innerHTML='';const p=score[i];
+  c.appendChild($('<div class="done-box"><div class="stars">'+stars(p)+'</div><h2>'+(p>=.9?'Excellent!':p>=.7?'Well done!':'Good try!')+'</h2><p>С первой попытки: <b>'+ok+' из '+total+'</b></p></div>'));
+  const r=$('<div class="row"></div>');
+  const a=$('<button class="btn ghost">↻ Ещё раз</button>');a.onclick=()=>go(i);
+  const b=$('<button class="btn">Дальше →</button>');b.onclick=()=>go(i+1);
+  r.appendChild(a);r.appendChild(b);c.appendChild(r)}
+function nextBtn(cb){const b=$('<button class="btn">Next →</button>');b.onclick=cb;return b}
+
+const RENDER={
+rule(s,c,i){c.appendChild($('<div class="rule">'+s.html+'</div>'));score[i]=null;
+  const r=$('<div class="row"></div>');r.appendChild(nextBtn(()=>go(i+1)));c.appendChild(r)},
+
+cards(s,c,i){let k=0;const items=s.items;
+  const box=$('<div></div>');c.appendChild(box);
+  function draw(){box.innerHTML='';const it=items[k];
+    box.appendChild($('<div class="prog"><i style="width:'+((k+1)/items.length*100)+'%"></i></div>'));
+    const fc=$('<div class="fc"><div class="in"><div class="s f"><div class="e">'+it.e+'</div><div class="big">'+it.f+'</div><div class="sm">нажми, чтобы перевернуть</div></div><div class="s b"><div class="e">'+(it.e2||it.e)+'</div><div class="big">'+it.b+'</div><div class="sm">'+(it.ru||'')+'</div></div></div></div>');
+    fc.onclick=()=>{fc.classList.toggle('flip');speak(fc.classList.contains('flip')?it.b.replace(/<[^>]+>/g,''):it.f.replace(/<[^>]+>/g,''))};
+    box.appendChild(fc);
+    const r=$('<div class="row"></div>');
+    const p=$('<button class="btn ghost">←</button>');p.disabled=k===0;p.onclick=()=>{k--;draw()};
+    const sp=$('<button class="say" title="Послушать">🔊</button>');sp.onclick=()=>speak((fc.classList.contains('flip')?it.b:it.f).replace(/<[^>]+>/g,''));
+    const n=$('<button class="btn">'+(k===items.length-1?'Готово ✓':'→')+'</button>');n.onclick=()=>{if(k<items.length-1){k++;draw()}else{score[i]=1;drawNav();go(i+1)}};
+    r.appendChild(p);r.appendChild(sp);r.appendChild(n);box.appendChild(r);
+    box.appendChild($('<div class="fb" style="color:var(--soft);font-weight:400">'+(k+1)+' / '+items.length+'</div>'))}
+  draw()},
+
+mcq(s,c,i){const items=s.shuffle===false?s.items:shuffle(s.items);let k=0,ok=0;const box=$('<div></div>');c.appendChild(box);
+  function draw(){box.innerHTML='';const it=items[k];let first=true,done=false;
+    box.appendChild($('<div class="prog"><i style="width:'+(k/items.length*100)+'%"></i></div>'));
+    if(it.e)box.appendChild($('<div class="emoji">'+it.e+'</div>'));
+    const q=$('<div class="q">'+it.q.replace('___','<span class="gap">&nbsp;?&nbsp;</span>')+'</div>');box.appendChild(q);
+    const o=$('<div class="opts"></div>');const fb=$('<div class="fb"></div>');
+    shuffle(it.o.map((t,j)=>({t,j}))).forEach(x=>{const b=$('<button class="opt"></button>');b.textContent=x.t;
+      b.onclick=()=>{if(done)return;if(x.j===(it.a||0)){done=true;b.classList.add('ok');if(first)ok++;
+          q.querySelector('.gap')&&(q.querySelector('.gap').textContent=x.t);
+          fb.className='fb ok';fb.innerHTML=praise()+(it.why?'<div style="font-weight:400;color:var(--soft);font-size:15px">'+it.why+'</div>':'');
+          speak(it.q.replace('___',x.t).replace(/<[^>]+>/g,''));
+          const r=$('<div class="row"></div>');r.appendChild(nextBtn(()=>{k++;k<items.length?draw():finish(c,i,ok,items.length)}));box.appendChild(r)}
+        else{first=false;b.classList.add('no');fb.className='fb no';fb.textContent=it.hint||'Try again! Подумай ещё 🙂'}};o.appendChild(b)});
+    box.appendChild(o);box.appendChild(fb)}
+  draw()},
+
+type(s,c,i){const items=s.shuffle===false?s.items:shuffle(s.items);let k=0,ok=0;const box=$('<div></div>');c.appendChild(box);
+  function draw(){box.innerHTML='';const it=items[k];let tries=0,done=false;
+    box.appendChild($('<div class="prog"><i style="width:'+(k/items.length*100)+'%"></i></div>'));
+    if(it.e)box.appendChild($('<div class="emoji">'+it.e+'</div>'));
+    box.appendChild($('<div class="q">'+it.q.replace('___','<span class="gap">&nbsp;?&nbsp;</span>')+'</div>'));
+    const r0=$('<div class="row"></div>');const inp=$('<input class="tx" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="напиши здесь">');r0.appendChild(inp);box.appendChild(r0);
+    const fb=$('<div class="fb"></div>');const r=$('<div class="row"></div>');
+    const chk=$('<button class="btn">Check ✓</button>');r.appendChild(chk);box.appendChild(r);box.appendChild(fb);
+    const check=()=>{if(done){k++;k<items.length?draw():finish(c,i,ok,items.length);return}
+      const v=norm(inp.value);if(!v)return;
+      if(it.a.some(a=>norm(a)===v)){done=true;if(tries===0)ok++;inp.className='tx ok';fb.className='fb ok';fb.textContent=praise();
+        box.querySelector('.gap').textContent=it.a[0];speak(it.q.replace('___',it.a[0]).replace(/<[^>]+>/g,''));chk.textContent='Next →'}
+      else{tries++;inp.className='tx no';fb.className='fb no';
+        if(tries>=2){done=true;fb.innerHTML='Правильно: <b>'+it.a[0]+'</b>';chk.textContent='Next →'}else fb.textContent=it.hint||'Not quite. Попробуй ещё раз!'}};
+    chk.onclick=check;inp.onkeydown=e=>{if(e.key==='Enter')check()};setTimeout(()=>inp.focus(),50)}
+  draw()},
+
+order(s,c,i){const items=s.shuffle===false?s.items:shuffle(s.items);let k=0,ok=0;const box=$('<div></div>');c.appendChild(box);
+  function draw(){box.innerHTML='';const it=items[k];const words=it.a.split(' ');let first=true,done=false;let picked=[];let pool=shuffle(words.map((w,j)=>({w,j})));
+    if(pool.map(x=>x.w).join(' ')===it.a)pool=pool.reverse();
+    box.appendChild($('<div class="prog"><i style="width:'+(k/items.length*100)+'%"></i></div>'));
+    if(it.e)box.appendChild($('<div class="emoji">'+it.e+'</div>'));
+    if(it.ru)box.appendChild($('<div class="instr-ru" style="text-align:center">'+it.ru+'</div>'));
+    const ans=$('<div class="tiles ans"></div>');const pl=$('<div class="tiles"></div>');box.appendChild(ans);box.appendChild(pl);
+    const fb=$('<div class="fb"></div>');const r=$('<div class="row"></div>');const chk=$('<button class="btn">Check ✓</button>');r.appendChild(chk);box.appendChild(r);box.appendChild(fb);
+    function rd(){ans.innerHTML='';pl.innerHTML='';
+      picked.forEach((x,n)=>{const t=$('<button class="tile"></button>');t.textContent=x.w;t.onclick=()=>{if(done)return;picked.splice(n,1);pool.push(x);rd()};ans.appendChild(t)});
+      pool.forEach((x,n)=>{const t=$('<button class="tile"></button>');t.textContent=x.w;t.onclick=()=>{if(done)return;pool.splice(n,1);picked.push(x);rd()};pl.appendChild(t)})}
+    rd();
+    chk.onclick=()=>{if(done){k++;k<items.length?draw():finish(c,i,ok,items.length);return}
+      if(pool.length){fb.className='fb no';fb.textContent='Используй все слова 🙂';return}
+      if(norm(picked.map(x=>x.w).join(' '))===norm(it.a)){done=true;if(first)ok++;fb.className='fb ok';fb.textContent=praise();speak(it.a);chk.textContent='Next →'}
+      else{if(!first){done=true;fb.className='fb no';fb.innerHTML='Правильно: <b>'+it.a+'</b>';chk.textContent='Next →'}else{first=false;fb.className='fb no';fb.textContent='Почти! Поменяй порядок слов.'}}}}
+  draw()},
+
+sort(s,c,i){const items=shuffle(s.items);let k=0,ok=0;const box=$('<div></div>');c.appendChild(box);const filled=s.cats.map(()=>[]);
+  function draw(){box.innerHTML='';
+    box.appendChild($('<div class="prog"><i style="width:'+(k/items.length*100)+'%"></i></div>'));
+    if(k>=items.length){finish(c,i,ok,items.length);return}
+    const it=items[k];let first=true;
+    box.appendChild($('<div class="word">'+it[0]+'</div>'));
+    const fb=$('<div class="fb"></div>');
+    const g=$('<div class="cats"></div>');
+    s.cats.forEach((ct,j)=>{const d=$('<div class="cat"><h4>'+ct+'</h4></div>');filled[j].forEach(w=>d.appendChild($('<span class="w">'+w+'</span>')));
+      d.onclick=()=>{if(j===it[1]){if(first)ok++;filled[j].push(it[2]||it[0]);speak(it[2]||it[0]);k++;draw()}else{first=false;d.classList.remove('no');void d.offsetWidth;d.classList.add('no');fb.className='fb no';fb.textContent='Не сюда. Попробуй ещё!'}};g.appendChild(d)});
+    box.appendChild(g);box.appendChild(fb)}
+  draw()},
+
+match(s,c,i){const cards=shuffle(s.pairs.flatMap((p,j)=>[{t:p[0],j},{t:p[1],j}]));let sel=null,left=s.pairs.length,miss=0;
+  const g=$('<div class="mgrid"></div>');c.appendChild(g);const fb=$('<div class="fb"></div>');c.appendChild(fb);
+  cards.forEach(x=>{const b=$('<button class="mc"></button>');b.textContent=x.t;x.el=b;
+    b.onclick=()=>{if(b.classList.contains('done'))return;
+      if(!sel){sel=x;b.classList.add('sel');return}
+      if(sel===x){b.classList.remove('sel');sel=null;return}
+      if(sel.j===x.j){b.classList.add('done');sel.el.classList.remove('sel');sel.el.classList.add('done');speak(s.pairs[x.j][1]);sel=null;left--;
+        if(left===0){const ok=Math.max(0,s.pairs.length-miss);setTimeout(()=>finish(c,i,ok,s.pairs.length),500)}}
+      else{miss++;b.classList.add('no');sel.el.classList.add('no');const a=sel.el;setTimeout(()=>{b.classList.remove('no');a.classList.remove('no','sel')},400);sel=null}};
+    g.appendChild(b)})},
+
+quiz(s,c,i){const pool=[];S.forEach(x=>{if(x.type==='mcq'&&x!==s)pool.push(...x.items)});
+  RENDER.mcq({items:shuffle(pool).slice(0,s.n||10)},c,i)}
+};
+
+function summary(){const c=$('<div class="card"></div>');let tot=0,n=0;
+  let h='<div class="done-box"><h2>🏆 Твои результаты</h2></div><table class="sum">';
+  S.forEach((s,i)=>{if(s.type==='rule'||s.type==='cards')return;n++;tot+=score[i]||0;h+='<tr><td>'+s.short+'</td><td>'+(score[i]==null?'—':stars(score[i])+' '+Math.round(score[i]*100)+'%')+'</td></tr>'});
+  h+='</table>';c.innerHTML=h;const done=S.filter((s,i)=>score[i]!=null&&s.type!=='rule'&&s.type!=='cards').length;
+  c.appendChild($('<p style="text-align:center">'+(done<n?'Выполнено заданий: '+done+' из '+n:'Все задания выполнены! You are a star! 🌟')+'</p>'));return c}
+
+drawNav();go(0);
+</script>
+</body>
+</html>

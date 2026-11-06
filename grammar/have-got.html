@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Have got / Has got</title>
+<style>
+:root{--bg:#fbf6ef;--card:#fff;--ink:#3b3330;--soft:#8a7c74;--accent:#e9875b;--accent2:#7bb39a;--accent3:#f2c14e;--bad:#e06c6c;--line:#efe4d8;--r:20px}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Nunito","Segoe UI",system-ui,-apple-system,Arial,sans-serif;font-size:18px;line-height:1.45}
+header{padding:22px 18px 8px;text-align:center}
+header .kicker{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--soft)}
+header h1{margin:4px 0 2px;font-size:28px}
+header p{margin:0;color:var(--soft);font-size:15px}
+nav{display:flex;gap:8px;overflow-x:auto;padding:12px 16px 10px;max-width:980px;margin:0 auto;scrollbar-width:thin}
+nav button{flex:0 0 auto;border:2px solid var(--line);background:#fff;border-radius:999px;padding:8px 14px;font:inherit;font-size:14px;cursor:pointer;color:var(--ink);white-space:nowrap}
+nav button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+nav button .st{margin-left:4px}
+main{max-width:760px;margin:0 auto;padding:6px 14px 60px}
+.card{background:var(--card);border-radius:var(--r);box-shadow:0 6px 24px rgba(120,80,40,.08);padding:22px;margin-top:10px}
+.instr{font-weight:700;font-size:17px;margin-bottom:4px}
+.instr-ru{color:var(--soft);font-size:15px;margin-bottom:14px}
+.prog{height:8px;background:var(--line);border-radius:9px;overflow:hidden;margin-bottom:16px}
+.prog i{display:block;height:100%;background:var(--accent2);transition:width .3s}
+.emoji{font-size:54px;text-align:center;line-height:1.1;margin:4px 0 8px}
+.q{font-size:22px;text-align:center;margin:6px 0 18px}
+.q .gap{display:inline-block;min-width:90px;border-bottom:3px dashed var(--accent);color:var(--accent);font-weight:700}
+.opts{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.opt{border:2px solid var(--line);background:#fff;border-radius:14px;padding:12px 20px;font:inherit;font-size:19px;cursor:pointer;min-width:120px;transition:transform .1s}
+.opt:hover{border-color:var(--accent3)}
+.opt.ok{background:#e6f4ec;border-color:var(--accent2)}
+.opt.no{background:#fbe9e9;border-color:var(--bad);animation:shake .3s}
+@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.fb{text-align:center;min-height:28px;margin-top:14px;font-weight:700}
+.fb.ok{color:var(--accent2)}.fb.no{color:var(--bad)}
+.row{display:flex;justify-content:center;gap:10px;margin-top:14px;flex-wrap:wrap}
+.btn{border:none;background:var(--accent);color:#fff;border-radius:14px;padding:12px 22px;font:inherit;font-weight:700;cursor:pointer}
+.btn.ghost{background:#fff;color:var(--ink);border:2px solid var(--line)}
+.btn:disabled{opacity:.4;cursor:default}
+input.tx{font:inherit;font-size:22px;padding:10px 14px;border-radius:14px;border:2px solid var(--line);width:min(320px,100%);text-align:center}
+input.tx.ok{border-color:var(--accent2);background:#e6f4ec}input.tx.no{border-color:var(--bad);background:#fbe9e9}
+.tiles{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;min-height:56px;padding:10px;border-radius:14px}
+.tiles.ans{background:#fff8ee;border:2px dashed var(--accent3);margin-bottom:12px}
+.tile{background:#fff;border:2px solid var(--line);border-radius:12px;padding:8px 14px;font:inherit;font-size:19px;cursor:pointer}
+.tiles.ans .tile{border-color:var(--accent3)}
+/* flashcards */
+.fc{perspective:900px;width:min(340px,100%);height:230px;margin:0 auto;cursor:pointer}
+.fc .in{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d}
+.fc.flip .in{transform:rotateY(180deg)}
+.fc .s{position:absolute;inset:0;backface-visibility:hidden;border-radius:var(--r);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px;text-align:center}
+.fc .f{background:#fff3e6;border:2px solid #f6dcc2}
+.fc .b{background:#eaf5ef;border:2px solid #cfe7da;transform:rotateY(180deg)}
+.fc .big{font-size:28px;font-weight:800}.fc .sm{color:var(--soft);font-size:16px;margin-top:6px}
+.fc .e{font-size:64px}
+.say{border:none;background:var(--accent3);border-radius:50%;width:44px;height:44px;font-size:20px;cursor:pointer}
+/* rule */
+.rule h3{margin:18px 0 8px;font-size:19px;color:var(--accent)}
+.rule table{border-collapse:separate;border-spacing:0;width:100%;margin:6px 0 10px;font-size:17px}
+.rule td,.rule th{padding:7px 10px;border-bottom:1px solid var(--line);text-align:left}
+.rule th{background:#fff3e6;font-size:15px}
+.rule .ex{color:var(--soft)}
+.rule b{color:var(--ink)}
+.chip{display:inline-block;background:#fff3e6;border-radius:10px;padding:4px 10px;margin:3px;font-size:17px}
+.chip b{color:var(--accent)}
+.tip{background:#eaf5ef;border-radius:14px;padding:10px 14px;margin:10px 0;font-size:16px}
+/* sort */
+.cats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-top:10px}
+.cat{border:2px solid var(--line);border-radius:14px;padding:10px;min-height:90px;background:#fff;cursor:pointer;text-align:center}
+.cat h4{margin:0 0 6px;font-size:16px;color:var(--accent)}
+.cat .w{display:inline-block;font-size:14px;background:#eaf5ef;border-radius:8px;padding:2px 7px;margin:2px}
+.cat.no{border-color:var(--bad);animation:shake .3s}
+.word{font-size:30px;font-weight:800;text-align:center;margin:6px 0}
+/* match */
+.mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.mc{border:2px solid var(--line);background:#fff;border-radius:14px;min-height:74px;font:inherit;font-size:18px;cursor:pointer;padding:8px}
+.mc.sel{border-color:var(--accent3);background:#fff8ee}
+.mc.done{background:#e6f4ec;border-color:var(--accent2);opacity:.6;cursor:default}
+.mc.no{border-color:var(--bad);animation:shake .3s}
+.done-box{text-align:center;padding:10px}
+.done-box .stars{font-size:44px;letter-spacing:6px}
+.sum td{padding:6px 10px;border-bottom:1px solid var(--line)}
+.sum{margin:10px auto;border-collapse:collapse}
+footer{text-align:center;color:var(--soft);font-size:13px;padding:20px}
+</style>
+</head>
+<body>
+<header>
+  <div class="kicker">Starlight 3 · Module 3 · Grammar</div>
+  <h1>Have got / Has got</h1>
+  <p>У меня есть… · It's So Cute!</p>
+</header>
+<nav id="nav"></nav>
+<main id="main"></main>
+<footer>Чемоданчик учителя английского · Starlight 3</footer>
+<script>
+const DATA = {"sections": [{"type": "rule", "short": "Правило", "instr": "have got / has got — у меня есть", "ru": "Module 3. Прочитай правило вместе с учителем.", "html": "\n<h3>✅ Утверждение</h3>\n<table><tr><th>Кто?</th><th>Полная форма</th><th>Краткая форма</th></tr>\n<tr><td>I, you, we, they</td><td><b>have got</b></td><td>I<b>'ve got</b>, they<b>'ve got</b></td></tr>\n<tr><td>he, she, it</td><td><b>has got</b></td><td>he<b>'s got</b>, it<b>'s got</b></td></tr></table>\n<p class=\"ex\">I've got fair hair. · She's got blue eyes. · It's got a long tail.</p>\n<div class=\"tip\">⭐ Запомни: <b>I've</b> = I have &nbsp;·&nbsp; <b>He's</b> = He has</div>\n<h3>❌ Отрицание</h3>\n<table><tr><td>I, you, we, they</td><td><b>haven't got</b></td></tr>\n<tr><td>he, she, it</td><td><b>hasn't got</b></td></tr></table>\n<p class=\"ex\">A fish hasn't got legs. · We haven't got a cat.</p>\n<h3>❓ Вопрос и краткий ответ</h3>\n<table>\n<tr><td><b>Have</b> you got a pet?</td><td>Yes, I <b>have</b>. / No, I <b>haven't</b>.</td></tr>\n<tr><td><b>Has</b> it got long legs?</td><td>Yes, it <b>has</b>. / No, it <b>hasn't</b>.</td></tr></table>\n<div class=\"tip\">💡 В кратком ответе слово <b>got</b> не нужно: Yes, I have. ✔ &nbsp; Yes, I have got. ✘</div>\n"}, {"type": "cards", "short": "Карточки", "instr": "Flashcards: What's it like?", "ru": "Слова для описания внешности. Нажми на карточку.", "items": [{"e": "👱‍♀️", "f": "fair hair", "b": "She's got fair hair.", "ru": "светлые волосы"}, {"e": "👨‍🦰", "f": "red hair", "b": "He's got red hair.", "ru": "рыжие волосы"}, {"e": "👁️", "f": "blue eyes", "b": "I've got blue eyes.", "ru": "голубые глаза"}, {"e": "🐘", "f": "big ears", "b": "It's got big ears.", "ru": "большие уши"}, {"e": "🐭", "f": "small ears", "b": "It's got small ears.", "ru": "маленькие уши"}, {"e": "🐒", "f": "a long tail", "b": "It's got a long tail.", "ru": "длинный хвост"}, {"e": "🐰", "f": "a short tail", "b": "It's got a short tail.", "ru": "короткий хвост"}, {"e": "🦒", "f": "long legs", "b": "It's got long legs.", "ru": "длинные ноги"}, {"e": "🐷", "f": "a fat body", "b": "It's got a fat body.", "ru": "толстое тело"}, {"e": "🐍", "f": "a thin body", "b": "It's got a thin body.", "ru": "тонкое тело"}]}, {"type": "mcq", "short": "have / has", "instr": "have got or has got?", "ru": "I, you, we, they → have; he, she, it → has.", "items": [{"e": "🐶", "q": "I ___ a dog.", "o": ["have got", "has got"], "why": "I → have got"}, {"e": "👱‍♀️", "q": "She ___ fair hair.", "o": ["has got", "have got"], "why": "she → has got"}, {"e": "🐱", "q": "My cat ___ green eyes.", "o": ["has got", "have got"], "why": "my cat = it → has got"}, {"e": "🐰🐰", "q": "We ___ two rabbits.", "o": ["have got", "has got"], "why": "we → have got"}, {"e": "🚲", "q": "Tom ___ a red bike.", "o": ["has got", "have got"], "why": "Tom = he → has got"}, {"e": "🐒🐒", "q": "Monkeys ___ long tails.", "o": ["have got", "has got"], "why": "monkeys = they → have got"}, {"e": "👀", "q": "You ___ blue eyes.", "o": ["have got", "has got"], "why": "you → have got"}, {"e": "🐘", "q": "The elephant ___ big ears.", "o": ["has got", "have got"], "why": "the elephant = it → has got"}, {"e": "🧸", "q": "My sister ___ a teddy bear.", "o": ["has got", "have got"], "why": "my sister = she → has got"}, {"e": "🧒🧒", "q": "The children ___ new toys.", "o": ["have got", "has got"], "why": "children = they → have got"}, {"e": "🐕", "q": "It ___ four legs.", "o": ["has got", "have got"], "why": "it → has got"}, {"e": "👨‍🦰", "q": "Liam ___ red hair.", "o": ["has got", "have got"], "why": "Liam = he → has got"}]}, {"type": "mcq", "short": "'ve / 's", "instr": "Short forms: 've or 's?", "ru": "Краткая форма: I've, we've… или he's, it's…", "items": [{"e": "🐹", "q": "I___ got a hamster.", "o": ["'ve", "'s"], "why": "I've = I have"}, {"e": "👦", "q": "He___ got brown eyes.", "o": ["'s", "'ve"], "why": "He's = He has"}, {"e": "🐰", "q": "It___ got a short tail.", "o": ["'s", "'ve"], "why": "It's = It has"}, {"e": "👧👦", "q": "They___ got a big house.", "o": ["'ve", "'s"], "why": "They've = They have"}, {"e": "👩", "q": "She___ got long hair.", "o": ["'s", "'ve"], "why": "She's = She has"}, {"e": "🐢", "q": "We___ got a tortoise.", "o": ["'ve", "'s"], "why": "We've = We have"}, {"e": "🙂", "q": "You___ got a nice smile!", "o": ["'ve", "'s"], "why": "You've = You have"}, {"e": "🐕", "q": "My dog___ got big ears.", "o": ["'s", "'ve"], "why": "My dog's = My dog has"}]}, {"type": "mcq", "short": "haven't / hasn't", "instr": "haven't got or hasn't got?", "ru": "Чего у них нет?", "items": [{"e": "🐟", "q": "A fish ___ legs.", "o": ["hasn't got", "haven't got"], "why": "a fish = it → hasn't got"}, {"e": "🐍🐍", "q": "Snakes ___ legs.", "o": ["haven't got", "hasn't got"], "why": "snakes = they → haven't got"}, {"e": "🙅‍♀️🐱", "q": "I ___ a cat.", "o": ["haven't got", "hasn't got"], "why": "I → haven't got"}, {"e": "🐶", "q": "My dog ___ a long tail.", "o": ["hasn't got", "haven't got"], "why": "my dog = it → hasn't got"}, {"e": "🐴", "q": "We ___ a pony.", "o": ["haven't got", "hasn't got"], "why": "we → haven't got"}, {"e": "👦", "q": "Sam ___ red hair.", "o": ["hasn't got", "haven't got"], "why": "Sam = he → hasn't got"}, {"e": "🐸", "q": "A frog ___ a tail.", "o": ["hasn't got", "haven't got"], "why": "a frog = it → hasn't got"}, {"e": "👧👧", "q": "My sisters ___ blue eyes.", "o": ["haven't got", "hasn't got"], "why": "my sisters = they → haven't got"}]}, {"type": "mcq", "short": "Вопросы", "instr": "Questions and short answers", "ru": "Have или Has? И как коротко ответить?", "items": [{"e": "🐾", "q": "___ you got a pet?", "o": ["Have", "Has"], "why": "you → Have"}, {"e": "🐘", "q": "___ it got big ears?", "o": ["Has", "Have"], "why": "it → Has"}, {"e": "👧", "q": "___ Martha got black hair?", "o": ["Has", "Have"], "why": "Martha = she → Has"}, {"e": "🧒🧒", "q": "___ they got a ball?", "o": ["Have", "Has"], "why": "they → Have"}, {"e": "🐶", "q": "Have you got a dog? — Yes, I ___.", "o": ["have", "has", "have got"], "why": "Yes, I have. (got не нужно)"}, {"e": "🐱", "q": "Has your cat got blue eyes? — No, it ___.", "o": ["hasn't", "haven't", "hasn't got"], "why": "No, it hasn't."}, {"e": "👦", "q": "Has Sam got green eyes? — Yes, he ___.", "o": ["has", "have", "is"], "why": "Yes, he has."}, {"e": "👨‍👩‍👧", "q": "Have they got a car? — No, they ___.", "o": ["haven't", "hasn't", "aren't"], "why": "No, they haven't."}]}, {"type": "type", "short": "Напиши", "instr": "Write have got / has got / haven't got / hasn't got", "ru": "(+) — есть, (−) — нет. Напиши полную форму.", "items": [{"e": "🐶", "q": "My brother ___ a puppy. (+)", "a": ["has got", "'s got"]}, {"e": "👧👧", "q": "I ___ two sisters. (+)", "a": ["have got", "'ve got"]}, {"e": "🐱", "q": "The cat ___ a long tail. (−)", "a": ["hasn't got", "has not got"]}, {"e": "🐢", "q": "We ___ a tortoise. (+)", "a": ["have got", "'ve got"]}, {"e": "🐟", "q": "Fish ___ ears. (−)", "a": ["haven't got", "have not got"]}, {"e": "👩", "q": "Mum ___ brown eyes. (+)", "a": ["has got", "'s got"]}, {"e": "🙅", "q": "They ___ a computer. (−)", "a": ["haven't got", "have not got"]}, {"e": "🐰", "q": "My rabbit ___ big ears. (+)", "a": ["has got", "'s got"]}]}, {"type": "order", "short": "Собери", "instr": "Put the words in order", "ru": "Нажимай на слова по порядку и собери предложение.", "items": [{"e": "👁️", "a": "She has got blue eyes.", "ru": "У неё голубые глаза."}, {"e": "🐭", "a": "I have got a white mouse.", "ru": "У меня есть белая мышка."}, {"e": "🐱", "a": "Has your cat got a long tail?", "ru": "У твоей кошки длинный хвост?"}, {"e": "🐶", "a": "My dog hasn't got big ears.", "ru": "У моей собаки не большие уши."}, {"e": "🐾", "a": "Have you got a pet?", "ru": "У тебя есть питомец?"}, {"e": "👨‍🦰", "a": "Liam has got red hair.", "ru": "У Лиама рыжие волосы."}]}, {"type": "mcq", "short": "Угадай", "instr": "Read and guess: who is it?", "ru": "Прочитай описание и угадай животное.", "shuffle": true, "items": [{"q": "It's got big ears and a long nose. It's grey.", "o": ["🐘 elephant", "🐭 mouse", "🐸 frog"]}, {"q": "It's got long legs and a very long neck.", "o": ["🦒 giraffe", "🐢 tortoise", "🐍 snake"]}, {"q": "It hasn't got legs. It's got a long thin body.", "o": ["🐍 snake", "🐰 rabbit", "🐶 dog"]}, {"q": "It's got long ears and a short tail. It can hop.", "o": ["🐰 rabbit", "🐒 monkey", "🐟 fish"]}, {"q": "It's got small ears, a long thin tail and it's very small.", "o": ["🐭 mouse", "🐘 elephant", "🦒 giraffe"]}, {"q": "It hasn't got legs. It's got fins and it can swim.", "o": ["🐟 fish", "🐶 dog", "🐒 monkey"]}]}, {"type": "quiz", "short": "Тест", "instr": "Final test", "ru": "10 вопросов вперемешку. Покажи, что ты знаешь!", "n": 10}]};
+const S = DATA.sections;
+const score = S.map(()=>null);
+let cur = 0;
+const $ = (h)=>{const d=document.createElement('div');d.innerHTML=h.trim();return d.firstChild};
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const norm=s=>s.toLowerCase().replace(/[’`]/g,"'").replace(/[.,!?]/g,'').replace(/\s+/g,' ').trim();
+const PRAISE=['Great! 🌟','Well done! 👏','Super! 🎉','Excellent! ⭐','Yes! 👍'];
+const praise=()=>PRAISE[Math.floor(Math.random()*PRAISE.length)];
+function speak(t){try{const u=new SpeechSynthesisUtterance(t);u.lang='en-GB';u.rate=.85;speechSynthesis.cancel();speechSynthesis.speak(u)}catch(e){}}
+function stars(p){return p>=.9?'⭐⭐⭐':p>=.7?'⭐⭐':p>=.4?'⭐':'💪'}
+
+function drawNav(){
+  const n=document.getElementById('nav');n.innerHTML='';
+  S.forEach((s,i)=>{const b=document.createElement('button');b.className=i===cur?'on':'';if(i===cur)setTimeout(()=>b.scrollIntoView({inline:'center',block:'nearest'}),0);
+    b.innerHTML=(i+1)+'. '+s.short+(score[i]!=null?'<span class="st">'+stars(score[i])+'</span>':'');
+    b.onclick=()=>go(i);n.appendChild(b)});
+  const b=document.createElement('button');b.className=cur===S.length?'on':'';b.textContent='🏆 Итог';b.onclick=()=>go(S.length);n.appendChild(b);
+}
+function go(i){cur=i;drawNav();const m=document.getElementById('main');m.innerHTML='';
+  if(i===S.length){m.appendChild(summary());return}
+  const s=S[i];const c=$('<div class="card"></div>');
+  c.appendChild($('<div><div class="instr">'+s.instr+'</div><div class="instr-ru">'+(s.ru||'')+'</div></div>'));
+  m.appendChild(c);RENDER[s.type](s,c,i);window.scrollTo({top:0,behavior:'smooth'})}
+function finish(c,i,ok,total){score[i]=total?ok/total:1;drawNav();
+  c.innerHTML='';const p=score[i];
+  c.appendChild($('<div class="done-box"><div class="stars">'+stars(p)+'</div><h2>'+(p>=.9?'Excellent!':p>=.7?'Well done!':'Good try!')+'</h2><p>С первой попытки: <b>'+ok+' из '+total+'</b></p></div>'));
+  const r=$('<div class="row"></div>');
+  const a=$('<button class="btn ghost">↻ Ещё раз</button>');a.onclick=()=>go(i);
+  const b=$('<button class="btn">Дальше →</button>');b.onclick=()=>go(i+1);
+  r.appendChild(a);r.appendChild(b);c.appendChild(r)}
+function nextBtn(cb){const b=$('<button class="btn">Next →</button>');b.onclick=cb;return b}
+
+const RENDER={
+rule(s,c,i){c.appendChild($('<div class="rule">'+s.html+'</div>'));score[i]=null;
+  const r=$('<div class="row"></div>');r.appendChild(nextBtn(()=>go(i+1)));c.appendChild(r)},
+
+cards(s,c,i){let k=0;const items=s.items;
+  const box=$('<div></div>');c.appendChild(box);
+  function draw(){box.innerHTML='';const it=items[k];
+    box.appendChild($('<div class="prog"><i style="width:'+((k+1)/items.length*100)+'%"></i></div>'));
+    const fc=$('<div class="fc"><div class="in"><div class="s f"><div class="e">'+it.e+'</div><div class="big">'+it.f+'</div><div class="sm">нажми, чтобы перевернуть</div></div><div class="s b"><div class="e">'+(it.e2||it.e)+'</div><div class="big">'+it.b+'</div><div class="sm">'+(it.ru||'')+'</div></div></div></div>');
+    fc.onclick=()=>{fc.classList.toggle('flip');speak(fc.classList.contains('flip')?it.b.replace(/<[^>]+>/g,''):it.f.replace(/<[^>]+>/g,''))};
+    box.appendChild(fc);
+    const r=$('<div class="row"></div>');
+    const p=$('<button class="btn ghost">←</button>');p.disabled=k===0;p.onclick=()=>{k--;draw()};
+    const sp=$('<button class="say" title="Послушать">🔊</button>');sp.onclick=()=>speak((fc.classList.contains('flip')?it.b:it.f).replace(/<[^>]+>/g,''));
+    const n=$('<button class="btn">'+(k===items.length-1?'Готово ✓':'→')+'</button>');n.onclick=()=>{if(k<items.length-1){k++;draw()}else{score[i]=1;drawNav();go(i+1)}};
+    r.appendChild(p);r.appendChild(sp);r.appendChild(n);box.appendChild(r);
+    box.appendChild($('<div class="fb" style="color:var(--soft);font-weight:400">'+(k+1)+' / '+items.length+'</div>'))}
+  draw()},
+
+mcq(s,c,i){const items=s.shuffle===false?s.items:shuffle(s.items);let k=0,ok=0;const box=$('<div></div>');c.appendChild(box);
+  function draw(){box.innerHTML='';const it=items[k];let first=true,done=false;
+    box.appendChild($('<div class="prog"><i style="width:'+(k/items.length*100)+'%"></i></div>'));
+    if(it.e)box.appendChild($('<div class="emoji">'+it.e+'</div>'));
+    const q=$('<div class="q">'+it.q.replace('___','<span class="gap">&nbsp;?&nbsp;</span>')+'</div>');box.appendChild(q);
+    const o=$('<div class="opts"></div>');const fb=$('<div class="fb"></div>');
+    shuffle(it.o.map((t,j)=>({t,j}))).forEach(x=>{const b=$('<button class="opt"></button>');b.textContent=x.t;
+      b.onclick=()=>{if(done)return;if(x.j===(it.a||0)){done=true;b.classList.add('ok');if(first)ok++;
+          q.querySelector('.gap')&&(q.querySelector('.gap').textContent=x.t);
+          fb.className='fb ok';fb.innerHTML=praise()+(it.why?'<div style="font-weight:400;color:var(--soft);font-size:15px">'+it.why+'</div>':'');
+          speak(it.q.replace('___',x.t).replace(/<[^>]+>/g,''));
+          const r=$('<div class="row"></div>');r.appendChild(nextBtn(()=>{k++;k<items.length?draw():finish(c,i,ok,items.length)}));box.appendChild(r)}
+        else{first=false;b.classList.add('no');fb.className='fb no';fb.textContent=it.hint||'Try again! Подумай ещё 🙂'}};o.appendChild(b)});
+    box.appendChild(o);box.appendChild(fb)}
+  draw()},
+
+type(s,c,i){const items=s.shuffle===false?s.items:shuffle(s.items);let k=0,ok=0;const box=$('<div></div>');c.appendChild(box);
+  function draw(){box.innerHTML='';const it=items[k];let tries=0,done=false;
+    box.appendChild($('<div class="prog"><i style="width:'+(k/items.length*100)+'%"></i></div>'));
+    if(it.e)box.appendChild($('<div class="emoji">'+it.e+'</div>'));
+    box.appendChild($('<div class="q">'+it.q.replace('___','<span class="gap">&nbsp;?&nbsp;</span>')+'</div>'));
+    const r0=$('<div class="row"></div>');const inp=$('<input class="tx" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="напиши здесь">');r0.appendChild(inp);box.appendChild(r0);
+    const fb=$('<div class="fb"></div>');const r=$('<div class="row"></div>');
+    const chk=$('<button class="btn">Check ✓</button>');r.appendChild(chk);box.appendChild(r);box.appendChild(fb);
+    const check=()=>{if(done){k++;k<items.length?draw():finish(c,i,ok,items.length);return}
+      const v=norm(inp.value);if(!v)return;
+      if(it.a.some(a=>norm(a)===v)){done=true;if(tries===0)ok++;inp.className='tx ok';fb.className='fb ok';fb.textContent=praise();
+        box.querySelector('.gap').textContent=it.a[0];speak(it.q.replace('___',it.a[0]).replace(/<[^>]+>/g,''));chk.textContent='Next →'}
+      else{tries++;inp.className='tx no';fb.className='fb no';
+        if(tries>=2){done=true;fb.innerHTML='Правильно: <b>'+it.a[0]+'</b>';chk.textContent='Next →'}else fb.textContent=it.hint||'Not quite. Попробуй ещё раз!'}};
+    chk.onclick=check;inp.onkeydown=e=>{if(e.key==='Enter')check()};setTimeout(()=>inp.focus(),50)}
+  draw()},
+
+order(s,c,i){const items=s.shuffle===false?s.items:shuffle(s.items);let k=0,ok=0;const box=$('<div></div>');c.appendChild(box);
+  function draw(){box.innerHTML='';const it=items[k];const words=it.a.split(' ');let first=true,done=false;let picked=[];let pool=shuffle(words.map((w,j)=>({w,j})));
+    if(pool.map(x=>x.w).join(' ')===it.a)pool=pool.reverse();
+    box.appendChild($('<div class="prog"><i style="width:'+(k/items.length*100)+'%"></i></div>'));
+    if(it.e)box.appendChild($('<div class="emoji">'+it.e+'</div>'));
+    if(it.ru)box.appendChild($('<div class="instr-ru" style="text-align:center">'+it.ru+'</div>'));
+    const ans=$('<div class="tiles ans"></div>');const pl=$('<div class="tiles"></div>');box.appendChild(ans);box.appendChild(pl);
+    const fb=$('<div class="fb"></div>');const r=$('<div class="row"></div>');const chk=$('<button class="btn">Check ✓</button>');r.appendChild(chk);box.appendChild(r);box.appendChild(fb);
+    function rd(){ans.innerHTML='';pl.innerHTML='';
+      picked.forEach((x,n)=>{const t=$('<button class="tile"></button>');t.textContent=x.w;t.onclick=()=>{if(done)return;picked.splice(n,1);pool.push(x);rd()};ans.appendChild(t)});
+      pool.forEach((x,n)=>{const t=$('<button class="tile"></button>');t.textContent=x.w;t.onclick=()=>{if(done)return;pool.splice(n,1);picked.push(x);rd()};pl.appendChild(t)})}
+    rd();
+    chk.onclick=()=>{if(done){k++;k<items.length?draw():finish(c,i,ok,items.length);return}
+      if(pool.length){fb.className='fb no';fb.textContent='Используй все слова 🙂';return}
+      if(norm(picked.map(x=>x.w).join(' '))===norm(it.a)){done=true;if(first)ok++;fb.className='fb ok';fb.textContent=praise();speak(it.a);chk.textContent='Next →'}
+      else{if(!first){done=true;fb.className='fb no';fb.innerHTML='Правильно: <b>'+it.a+'</b>';chk.textContent='Next →'}else{first=false;fb.className='fb no';fb.textContent='Почти! Поменяй порядок слов.'}}}}
+  draw()},
+
+sort(s,c,i){const items=shuffle(s.items);let k=0,ok=0;const box=$('<div></div>');c.appendChild(box);const filled=s.cats.map(()=>[]);
+  function draw(){box.innerHTML='';
+    box.appendChild($('<div class="prog"><i style="width:'+(k/items.length*100)+'%"></i></div>'));
+    if(k>=items.length){finish(c,i,ok,items.length);return}
+    const it=items[k];let first=true;
+    box.appendChild($('<div class="word">'+it[0]+'</div>'));
+    const fb=$('<div class="fb"></div>');
+    const g=$('<div class="cats"></div>');
+    s.cats.forEach((ct,j)=>{const d=$('<div class="cat"><h4>'+ct+'</h4></div>');filled[j].forEach(w=>d.appendChild($('<span class="w">'+w+'</span>')));
+      d.onclick=()=>{if(j===it[1]){if(first)ok++;filled[j].push(it[2]||it[0]);speak(it[2]||it[0]);k++;draw()}else{first=false;d.classList.remove('no');void d.offsetWidth;d.classList.add('no');fb.className='fb no';fb.textContent='Не сюда. Попробуй ещё!'}};g.appendChild(d)});
+    box.appendChild(g);box.appendChild(fb)}
+  draw()},
+
+match(s,c,i){const cards=shuffle(s.pairs.flatMap((p,j)=>[{t:p[0],j},{t:p[1],j}]));let sel=null,left=s.pairs.length,miss=0;
+  const g=$('<div class="mgrid"></div>');c.appendChild(g);const fb=$('<div class="fb"></div>');c.appendChild(fb);
+  cards.forEach(x=>{const b=$('<button class="mc"></button>');b.textContent=x.t;x.el=b;
+    b.onclick=()=>{if(b.classList.contains('done'))return;
+      if(!sel){sel=x;b.classList.add('sel');return}
+      if(sel===x){b.classList.remove('sel');sel=null;return}
+      if(sel.j===x.j){b.classList.add('done');sel.el.classList.remove('sel');sel.el.classList.add('done');speak(s.pairs[x.j][1]);sel=null;left--;
+        if(left===0){const ok=Math.max(0,s.pairs.length-miss);setTimeout(()=>finish(c,i,ok,s.pairs.length),500)}}
+      else{miss++;b.classList.add('no');sel.el.classList.add('no');const a=sel.el;setTimeout(()=>{b.classList.remove('no');a.classList.remove('no','sel')},400);sel=null}};
+    g.appendChild(b)})},
+
+quiz(s,c,i){const pool=[];S.forEach(x=>{if(x.type==='mcq'&&x!==s)pool.push(...x.items)});
+  RENDER.mcq({items:shuffle(pool).slice(0,s.n||10)},c,i)}
+};
+
+function summary(){const c=$('<div class="card"></div>');let tot=0,n=0;
+  let h='<div class="done-box"><h2>🏆 Твои результаты</h2></div><table class="sum">';
+  S.forEach((s,i)=>{if(s.type==='rule'||s.type==='cards')return;n++;tot+=score[i]||0;h+='<tr><td>'+s.short+'</td><td>'+(score[i]==null?'—':stars(score[i])+' '+Math.round(score[i]*100)+'%')+'</td></tr>'});
+  h+='</table>';c.innerHTML=h;const done=S.filter((s,i)=>score[i]!=null&&s.type!=='rule'&&s.type!=='cards').length;
+  c.appendChild($('<p style="text-align:center">'+(done<n?'Выполнено заданий: '+done+' из '+n:'Все задания выполнены! You are a star! 🌟')+'</p>'));return c}
+
+drawNav();go(0);
+</script>
+</body>
+</html>
